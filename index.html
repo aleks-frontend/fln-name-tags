@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html data-sign="OSZ" async>
+  <head>
+    <title>Template title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" type="text/css" href="css/minireset.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+
+    <style>
+      @import url("https://outfit-assets-production.s3.amazonaws.com/fonts/Akzidenz/stylesheet.css");
+      @import url("https://outfit-assets-production.s3.amazonaws.com/fonts/Amsi/stylesheet.css");
+      @import url("https://outfit-assets-production.s3.amazonaws.com/fonts/Akzidenz%20Grotesk/stylesheet-cond.css");
+      @import url("https://outfit-assets-production.s3.amazonaws.com/fonts/TheSans/stylesheet.css");
+      @import url("https://outfit-assets-production.s3.amazonaws.com/fonts/din-pro/stylesheet.css");
+
+      /* inputs order
+      {{show-crop}}
+      {{{FL_theme-nt}}}
+      {{#spreadsheet.Fl_name-tags--nt}}{{/spreadsheet.Fl_name-tags--nt}}
+      {{{FL_logo--nt}}}
+      {{{FL_partner-logo--nt}}}
+      */
+
+      :root {
+
+        /*colors*/
+        --black: {{{account.colors.process-black}}};
+        --white: #fff;
+        --yellow: {{{account.colors.primary-gold}}};
+        --cyan: #00ffff;
+      }
+
+      html {
+        font-family: 'Akzidenz Grotesk BE Cn';
+        color: var(--black);
+        word-break: break-word;
+      }
+
+      .backgroundImage {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        overflow: hidden;
+      }
+
+      .backgroundImage div {
+        width: auto !important;
+        height: auto !important;
+        right: 0;
+        bottom: 0;
+      }
+
+      .fit {
+        padding: 116pt 50pt;
+      }
+
+      .card__container {
+        display: grid;
+        grid-template: repeat(4, 55mm) / repeat(2, 90mm) ;
+      }
+
+      .card__container .card:last-child,
+      .card__container .card:nth-last-child(2) {
+        border-bottom: 0.5pt solid var(--cyan);
+      }
+
+      .card {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        border-right: 0.5pt solid var(--cyan);
+      }
+
+      .theme--white .card {
+        border-top: 0.5pt solid var(--cyan);
+      }
+
+      .card:nth-child(odd) {
+        border-left: 0.5pt solid var(--cyan);
+      }
+
+      .section {
+        position: relative;
+      }
+
+      .section--top {
+        flex-shrink: 0;
+        height: 72pt;
+        padding: 8pt 6.5pt 5pt;
+      }
+
+      .theme--white .section--top {
+        padding-top: 0;
+      }
+
+      .theme--black .section--top {
+        height: 77pt;
+        background-color: var(--black);
+      }
+
+      .theme--yellow .section--top {
+        height: 77pt;
+        background-color: var(--yellow);
+      }
+
+      .section--bottom,
+      .section__inner {
+        display: flex;
+        height: 100%;
+        align-items: center;
+      }
+
+      .section--bottom {
+        flex: 1;
+        flex-direction: column;
+        justify-content: center;
+        padding: 8pt 15pt;
+      }
+
+      .section__inner {
+        justify-content: flex-end;
+      }
+
+      .theme--white .section__inner {
+        margin: 0pt 6pt;
+        border-bottom: 1.2pt solid var(--yellow);
+      }
+
+      .logoPosition--center .section__inner {
+        justify-content: center;
+      }
+
+      .logo {
+        display: none;
+      }
+
+      .logo,
+      .partnerLogo {
+        object-fit: contain;
+        object-position: center;
+      }
+
+      .theme--black .logo--primary {
+        display: block;
+      }
+
+      .theme--yellow .logo--secondary,
+      .theme--white .logo--secondary {
+        display: block;
+      }
+
+      .theme--black .logo,
+      .theme--yellow .logo {
+        height: 40pt;
+        width: 103.5pt;
+        margin-bottom: 3pt;
+      }
+
+      .theme--white .logo {
+        height: 40pt; 
+        width: 105.2pt;
+        margin-bottom: -1pt;
+      }
+
+      .theme--black .partnerLogo ,
+      .theme--yellow .partnerLogo  {
+        height: 59pt;
+        width: 115.5pt;
+        margin-left: 15.9pt;
+      }
+
+      .theme--white .partnerLogo {
+        height: 60pt;
+        width: 108.7pt;
+        margin-left: 15.9pt;
+      }
+
+      .heading {
+        font-size: 25.6pt;
+        line-height: 1em; 
+      }
+
+      .heading + .text {
+        margin-top: 3pt;
+      }
+
+      .text {
+        font-weight: 500;
+        font-family: 'Akzidenz-Grotesk Std Cnd';
+        line-height: 1.1em;
+      }
+
+      .text--primary {
+        font-size: 19.7pt;
+        /*line-height: 1.3em;*/
+      }
+
+      .text--secondary {
+        position: relative;
+        max-height: 25pt;
+        font-size: 17.7pt;
+        /*line-height: 1em;*/
+      }
+
+      .text__inner {
+        width: 100%;
+        font-size: 1em;
+        line-height: 1em;
+      }
+
+      /* Helper classes */
+      .u-hide { display: none; }
+
+      /* Helper class for fixing Reposition tool bug */
+      .reposition-fix {
+        position: absolute;
+        overflow: hidden;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;        
+      }
+
+      .reposition-fix div {
+        top: 0 !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+      }
+
+      /* ANY OTHER STYLES THAT NEED MUSTACHE.JS CAPABILITIES */
+    </style>
+  </head>
+  <body style="background: white" data-crop="{{show-crop}}" class="theme--{{{FL_theme-nt}}}{{^FL_theme-nt}}black{{/FL_theme-nt}}
+                                                                   logoPosition--{{^FL_partner-logo--nt}}center{{/FL_partner-logo--nt}}">
+
+    <div class="js-dynamicInjectMaster">
+      <div class="js-inject-src" data-target-id="logo" data-is-image="true">{{{FL_logo--nt}}}{{^FL_logo--nt}}https://files.outfit.io/media_library_items/139837/Flinders%2520Logo%2520White.svg{{/FL_logo--nt}}</div>
+      <div class="js-inject-src" data-target-id="logo--secondary" data-is-image="true">{{{FL_logo--nt}}}{{^FL_logo--nt}}https://files.outfit.io/media_library_items/139836/Flinders%2520Logo%2520Black.svg{{/FL_logo--nt}}</div>
+      <div class="js-inject-src" data-target-id="partner-logo" data-is-image="true">{{{FL_partner-logo--nt}}}</div>
+    </div><!--js-dynamicInjectMaster-->
+
+    <div class="pages"></div><!--pages-->
+
+    <div class="template" style="display: none">
+      <div class="page">
+        <div class="bleed">
+          <div class="container fit">
+            <div class="card__container">
+
+            </div><!--card__container-->
+          </div><!--container fit-->
+        </div><!--bleed-->
+      </div><!--page-->
+    </div><!--template-->
+
+    {{#spreadsheet.Fl_name-tags--nt}}
+    <div class="card">
+      <div class="section section--top">
+        <div class="section__inner">
+          <img src="#" class="logo logo--primary" data-target="logo"><!--logo-->
+          <img src="#" class="logo logo--secondary" data-target="logo--secondary"><!--logo-->
+          <img src="#" class="partnerLogo" data-target="partner-logo"><!--partnerLogo-->
+        </div><!--section__inner-->
+      </div><!--section--top-->
+      <div class="section section--bottom">
+        <div class="heading textFit">{{first-name}} {{last-name}}</div><!--heading-->
+        {{#additional-text-1}}
+        <div class="text text--primary" data-max-line="1">{{additional-text-1}}</div><!--text--primary-->
+        {{/additional-text-1}}
+        {{#additional-text-2}}
+        <div class="text text--secondary">
+          <div class="text__inner textFit--min">
+            {{additional-text-2}}
+          </div>
+        </div><!--text--secondary-->
+        {{/additional-text-2}}
+      </div><!--section--bottom-->
+    </div><!--card-->
+    {{/spreadsheet.Fl_name-tags--nt}}
+
+    <script>
+      window.showCrop = {{show-crop}}{{^show-crop}}true{{/show-crop}};
+    </script>
+    <script src="js/main.js"></script>   
+    <script src="js/prefixfree.js"></script>
+    <script src="js/char-limit.js"></script>
+    <script src="js/check-export-mode.js"></script>
+    <script src="js/max-line-check.js"></script>
+    <script src="js/max-height-check.js"></script>
+    <script src="js/hide-empty-titles.js"></script>
+    <script src="js/dynamic-inject.js"></script>
+    <script src="js/text-fit-min.js"></script>
+    <script src="https://outfit-assets-production.s3-accelerate.amazonaws.com/scripts/textfit.0.0.4.min.js" type="text/javascript"></script>
+    <script>
+
+      console.clear();
+
+      loopThroughPages()
+
+      function loopThroughPages() {
+        var pages = document.querySelector('.pages');
+        var pageTemplate = document.querySelector('.template .page');
+        var entries = Array.prototype.slice.call(document.querySelectorAll('.card'));
+        pages.insertBefore(pageTemplate.cloneNode(true), null);
+        // item count to decide when to add a new page
+        var itemCount = 0;
+
+        // so we know which page to append to
+        entries.forEach(function(entry) {
+          if (itemCount < 8 ) {
+            var allPages = document.querySelectorAll('.pages .page')
+            allPages[allPages.length - 1].querySelector('.card__container').insertBefore(entry, null)
+
+            itemCount++
+          } else {
+            // add a new page
+            pages.insertBefore(pageTemplate.cloneNode(true), null);
+            var allPages = document.querySelectorAll('.pages .page')
+            allPages[allPages.length - 1].querySelector('.card__container').insertBefore(entry, null)
+            // reset count
+            itemCount = 1 
+          }
+        })
+      }
+
+      // Tracking text changes and firing text restriction functions (mutationObserver)
+      const overflowObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          maxLineCheck();
+          maxHeightCheck();
+          charLimit();
+          hideEmptyTitles();
+        });
+      });
+
+      const injectObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          injectDynamicContent();
+        });
+      });      
+
+      const injectSources = document.querySelectorAll('[data-target-id]');
+
+      overflowObserver.observe(document.body, {
+        attributes: false,
+        characterData: true,
+        childList: true,
+        subtree: true,
+        attributeOldValue: false,
+        characterDataOldValue: true
+      });
+
+      if ( injectSources.length > 0 ) {
+        injectSources.forEach(src => {
+          injectObserver.observe(src, {
+            attributes: false,
+            characterData: true,
+            childList: true,
+            subtree: true,
+            attributeOldValue: false,
+            characterDataOldValue: true
+          });            
+        });
+      }    
+
+      // Calling text size restriction functions once the fonts are loaded
+      document.fonts.ready.then(() => {
+        maxLineCheck();
+        maxHeightCheck();
+        injectDynamicContent();
+        hideEmptyTitles();
+      });
+
+      checkCrop();
+      checkExport();
+      charLimit();
+
+      // TextFit function decreases the font of the selected element to make it fit in single line (if needed, uncomment the code bellow)
+      TextFit.fit({
+        selector: '.textFit'
+      });
+
+      TextFit.fit({
+        selector: '.textFit--min',
+        fitMode: 'vertical',
+        alignItems: 'center'
+      });
+
+      setInterval(() => {textFitMin('.textFit--min', 19.92)}, 500);
+
+    </script>
+    <script type="text/javascript">
+      // Add many fallbacks for Print Ready
+      document.addEventListener('DOMContentLoaded', function(event) {
+        document.dispatchEvent(new Event('printready'));
+      });
+
+      setTimeout(function() {
+        document.dispatchEvent(new Event('printready'));
+      }, 500);
+
+      document.dispatchEvent(new Event('printready'));
+    </script>
+
+  </body>
+</html>

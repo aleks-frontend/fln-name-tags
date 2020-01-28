@@ -201,13 +201,15 @@
 
       .text--secondary {
         position: relative;
-        max-height: 25pt;
+/*        max-height: 25pt; */
+        width: 100%;
         font-size: 17.7pt;
+        text-align: center;
         /*line-height: 1em;*/
       }
 
       .text__inner {
-        width: 100%;
+/*        width: 100%; */
         font-size: 1em;
         line-height: 1em;
       }
@@ -388,12 +390,10 @@
       });
 
       TextFit.fit({
-        selector: '.textFit--min',
-        fitMode: 'vertical',
-        alignItems: 'center'
+        selector: '.textFit--min'
       });
 
-      setInterval(() => {textFitMin('.textFit--min', 19.92)}, 500);
+      setInterval(() => {textFitMin('.textFit--min', 19)}, 500);
 
     </script>
     <script type="text/javascript">
@@ -404,7 +404,7 @@
 
       setTimeout(function() {
         document.dispatchEvent(new Event('printready'));
-      }, 500);
+      }, 5500);
 
       document.dispatchEvent(new Event('printready'));
     </script>
